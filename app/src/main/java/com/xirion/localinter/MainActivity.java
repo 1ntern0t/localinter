@@ -16,15 +16,21 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
 
     static {
-        System.loadLibrary("localinter");
+        try {
+            System.loadLibrary("localinter");
+        } catch (Throwable t) {
+            // If this fails you’d crash before onCreate; log it loudly.
+            Log.e("ShellZapp", "Failed to load native lib", t);
+        }
     }
 
     public native String runShellCommand(String cmd, boolean usePython);
+
     public static String runPython(String code) {
         return PythonBridge.execute(code);
     }
 
-    private boolean isPythonMode = true;  // Default to Python interpreter
+    private boolean isPythonMode = true;
 
     public boolean hasRootAccess() {
         try {
@@ -41,17 +47,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!Python.isStarted()) {
-            Python.start(new AndroidPlatform(this));
+        try {
+            if (!Python.isStarted()) {
+                Python.start(new AndroidPlatform(this));
+            }
+        } catch (Throwable t) {
+            Log.e("ShellZapp", "Failed to start Chaquopy Python", t);
+            // We keep going so at least LLaMA mode still works.
         }
 
         setContentView(R.layout.activity_main);
 
-        EditText inputField = findViewById(R.id.inputField);
-        Button runButton = findViewById(R.id.runButton);
-        Button modeButton = findViewById(R.id.modeButton);
+        EditText inputField  = findViewById(R.id.inputField);
+        Button runButton     = findViewById(R.id.runButton);
+        Button modeButton    = findViewById(R.id.modeButton);
         TextView outputField = findViewById(R.id.outputField);
-        TextView modeLabel = findViewById(R.id.modeLabel);
+        TextView modeLabel   = findViewById(R.id.modeLabel);
 
         updateModeLabel(modeLabel);
 
