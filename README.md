@@ -1,8 +1,6 @@
 ⚡ LocalInter — Offline AI Interface for Android (Root Required)
 
-LocalInter is a simple graphical interface for interacting with your fully offline AI model running directly on a rooted Android device.
-No terminal commands. No shell flags. No manual tuning.
-Just type → run → respond.
+Local Interface
 
 This project is the UI / front-end layer for the offline AI setup.
 
