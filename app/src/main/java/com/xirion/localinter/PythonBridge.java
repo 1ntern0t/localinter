@@ -5,9 +5,13 @@ import com.chaquo.python.Python;
 
 public class PythonBridge {
     public static String execute(String code) {
-        Python py = Python.getInstance();
-        PyObject pycore = py.getModule("pycore");
-        PyObject result = pycore.callAttr("run_interpreter", code);
-        return result.toString();
+        try {
+            Python py = Python.getInstance();
+            PyObject pycore = py.getModule("pycore");
+            PyObject result = pycore.callAttr("run_interpreter", code);
+            return result.toString();
+        } catch (Throwable e) {
+            return "Python exception: " + e.toString();
+        }
     }
 }

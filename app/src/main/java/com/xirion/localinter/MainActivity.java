@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (hasRootAccess()) {
-            Log.d("ShellZapp", "✅ Root access confirmed.");
+            Log.d("ShellZapp", "Root access confirmed.");
         } else {
-            Log.d("ShellZapp", "❌ Root not available.");
+            Log.d("ShellZapp", "Root not available.");
         }
     }
 
